@@ -8,6 +8,16 @@
 --line: #ddd0b5;
 --signal: #d1652c;
 --accent: #2f6f62;
+
+/* added: used by Chat.css, were previously undefined */
+--gold: #b8863b;
+--verdigris: #2f6f62;
+--verdigris-soft: rgba(47, 111, 98, 0.12);
+--cream: #faf3e3;
+--good: #2f6f62;
+--good-soft: rgba(47, 111, 98, 0.12);
+--rust: #b95222;
+--rust-soft: rgba(185, 82, 34, 0.12);
 }
 
 * {
