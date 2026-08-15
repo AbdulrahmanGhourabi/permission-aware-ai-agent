@@ -48,3 +48,31 @@ See `ai-agent-backend/.env.example` for required variables:
 - Permission-aware retrieval — users only see results from documents they can access
 - Chat interface backed by RAG over ingested documents
 - JWT-based authentication via Supabase
+- Document sharing and access revocation between users
+
+## Screenshots
+
+**Login**
+![Login](screenshots/login.png)
+
+**Chat — asking a question as the document owner**
+![Chat as owner](screenshots/chat-with-doc-as-owner.png)
+
+**Document sharing and revocation**
+![Share and revoke access](screenshots/doc-share-revoke.png)
+
+**Viewer with granted access**
+![Viewer has access](screenshots/viewer-side-has-access.png)
+
+**Third user without access — correctly blocked**
+![No access](screenshots/third-user-has-no-access.png)
+
+**All documents view**
+![All docs](screenshots/all-docs-of-user.png)
+
+**Backend — document ingestion endpoint**
+![Ingest endpoint](screenshots/backend-ingest-endpoint.png)
+
+**Backend — retrieval debug (permission-filtered retrieval)**
+![Retrieval debug 1](screenshots/retrieval-debug(1).png)
+![Retrieval debug 2](screenshots/retrieval-debug(2).png)
