@@ -1,0 +1,420 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+--ink: #1f2430;
+--ink-soft: #5b6072;
+--paper: #f3ead9;
+--panel: #fffdf8;
+--line: #ddd0b5;
+--signal: #d1652c;
+--accent: #2f6f62;
+}
+
+* {
+  box-sizing: border-box;
+  }
+
+html,
+body,
+#root {
+width: 100%;
+min-height: 100%;
+margin: 0;
+}
+
+body {
+font-family: 'Inter', sans-serif;
+color: var(--ink);
+background: var(--paper);
+}
+
+button,
+input,
+textarea,
+select {
+font: inherit;
+}
+
+button {
+cursor: pointer;
+}
+
+/* HEADER */
+
+header {
+position: relative;
+z-index: 100;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 24px 32px;
+background: #fffdf8;
+border-bottom: 1px solid var(--line);
+box-shadow: 0 4px 18px rgba(31, 36, 48, 0.07);
+}
+
+header h1 {
+margin: 0;
+font-family: 'Fraunces', serif;
+font-size: 28px;
+font-weight: 600;
+letter-spacing: -0.7px;
+color: var(--ink);
+}
+
+
+
+header p {
+margin: 5px 0 0;
+font-family: 'IBM Plex Mono', monospace;
+font-size: 11px;
+letter-spacing: 0.3px;
+color: var(--ink-soft);
+}
+
+header button {
+min-height: 40px;
+padding: 9px 16px;
+border: 1px solid var(--line);
+border-radius: 9px;
+background: #fffdf8;
+color: var(--ink) !important;
+font-size: 13px;
+font-weight: 500;
+transition:
+transform 0.2s ease,
+border-color 0.2s ease,
+background 0.2s ease,
+color 0.2s ease,
+box-shadow 0.2s ease;
+}
+
+header button:hover {
+transform: translateY(-2px);
+border-color: rgba(209, 101, 44, 0.5);
+background: #fff5eb;
+color: var(--signal) !important;
+box-shadow: 0 6px 16px rgba(31, 36, 48, 0.08);
+}
+
+/* MAIN */
+
+main {
+position: relative;
+width: 100%;
+min-height: calc(100vh - 73px);
+overflow: hidden;
+isolation: isolate;
+background: #f3ead9;
+}
+
+/* ANIMATED BACKGROUND */
+
+main::before {
+content: '';
+position: absolute;
+z-index: -2;
+inset: -25%;
+width: 150%;
+height: 150%;
+
+background:
+linear-gradient(
+125deg,
+#eee0c5 0%,
+#d9c6e4 18%,
+#c9d9e9 34%,
+#e7d6b9 50%,
+#f0c9b7 66%,
+#c9ddd6 82%,
+#ead9bd 100%
+);
+
+background-size: 400% 400%;
+
+
+animation: movingBackground 15s ease-in-out infinite;
+
+will-change: background-position;
+}
+
+/* SOFT OVERLAY */
+
+main::after {
+content: '';
+position: absolute;
+z-index: -1;
+inset: 0;
+
+background:
+radial-gradient(
+ellipse at center,
+rgba(255, 255, 255, 0.28) 0%,
+rgba(255, 255, 255, 0.08) 42%,
+transparent 72%
+);
+
+pointer-events: none;
+}
+
+/* BACKGROUND ANIMATION */
+
+@keyframes movingBackground {
+0% {
+background-position: 0% 50%;
+}
+
+50% {
+background-position: 100% 50%;
+}
+
+100% {
+background-position: 0% 50%;
+}
+}
+
+/* LOGIN SCREEN */
+
+.login-screen {
+position: relative;
+z-index: 1;
+min-height: calc(100vh - 73px);
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 32px;
+background: transparent;
+}
+
+/* LOGIN CARD */
+
+.login-card {
+position: relative;
+z-index: 5;
+width: 100%;
+max-width: 400px;
+padding: 56px 38px 42px;
+text-align: center;
+
+background: rgba(255, 253, 248, 0.93);
+
+border: 1px solid rgba(255, 255, 255, 0.8);
+border-radius: 18px;
+
+box-shadow:
+0 30px 70px rgba(31, 36, 48, 0.18),
+0 8px 25px rgba(31, 36, 48, 0.08);
+
+backdrop-filter: blur(15px);
+-webkit-backdrop-filter: blur(15px);
+}
+
+/* LOGIN MARK */
+
+.login-mark {
+position: absolute;
+top: -25px;
+left: 50%;
+transform: translateX(-50%) rotate(-4deg);
+
+width: 52px;
+height: 52px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+background: var(--ink);
+color: var(--signal);
+
+font-family: 'Fraunces', serif;
+font-size: 23px;
+font-weight: 600;
+
+border: 3px solid var(--paper);
+
+box-shadow: 0 9px 22px rgba(0, 0, 0, 0.25);
+}
+
+/* LOGIN TEXT */
+
+.login-card h1 {
+margin: 14px 0 10px;
+
+font-family: 'Fraunces', serif;
+font-size: 31px;
+font-weight: 600;
+letter-spacing: -0.7px;
+
+color: var(--ink);
+}
+
+.login-subtitle {
+max-width: 300px;
+margin: 0 auto 30px;
+
+font-size: 14px;
+line-height: 1.6;
+
+color: var(--ink-soft);
+}
+
+/* LOGIN BUTTON */
+
+.login-button {
+width: 100%;
+min-height: 45px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+gap: 10px;
+
+padding: 13px 18px;
+
+border: 1px solid var(--line);
+border-radius: 11px;
+
+background: #fffdf8;
+
+color: var(--ink) !important;
+
+font-size: 14px;
+font-weight: 500;
+
+box-shadow: 0 4px 12px rgba(31, 36, 48, 0.05);
+
+transition:
+transform 0.2s ease,
+border-color 0.2s ease,
+background 0.2s ease,
+box-shadow 0.2s ease,
+color 0.2s ease;
+}
+
+.login-button:hover {
+transform: translateY(-2px);
+
+border-color: rgba(209, 101, 44, 0.5);
+
+background: #fff7ef;
+
+color: var(--signal) !important;
+
+box-shadow: 0 9px 22px rgba(31, 36, 48, 0.1);
+}
+
+/* BUTTON VISIBILITY */
+
+main button {
+text-shadow: none;
+}
+
+/* PRIMARY BUTTONS */
+
+main button[type='submit'],
+.upload-button,
+.upload-btn,
+.send-button,
+.send-btn,
+.primary-button,
+.primary-btn {
+color: #ffffff !important;
+background: var(--signal);
+border-color: var(--signal);
+font-weight: 600;
+}
+
+main button[type='submit']:hover,
+.upload-button:hover,
+.upload-btn:hover,
+.send-button:hover,
+.send-btn:hover,
+.primary-button:hover,
+.primary-btn:hover {
+color: #ffffff !important;
+background: #b95222;
+border-color: #b95222;
+}
+
+/* INPUTS */
+
+main input,
+main textarea,
+main select {
+color: var(--ink);
+background: rgba(255, 253, 248, 0.9);
+border: 1px solid var(--line);
+outline: none;
+}
+
+main input::placeholder,
+main textarea::placeholder {
+color: #8b8990;
+}
+
+main input:focus,
+main textarea:focus,
+main select:focus {
+border-color: rgba(47, 111, 98, 0.55);
+box-shadow: 0 0 0 3px rgba(47, 111, 98, 0.1);
+}
+
+/* LOADING */
+
+.login-loading {
+min-height: 100vh;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+font-family: 'IBM Plex Mono', monospace;
+font-size: 13px;
+
+color: var(--ink-soft);
+
+background:
+linear-gradient(
+135deg,
+#f8f0e2,
+#f3ead9,
+#eee2c9
+);
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+header {
+padding: 20px;
+}
+
+header h1 {
+font-size: 24px;
+}
+
+header button {
+padding: 9px 12px;
+}
+
+.login-screen {
+padding: 22px;
+}
+
+.login-card {
+padding: 52px 26px 34px;
+}
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+main::before {
+animation: none;
+background-position: 50% 50%;
+}
+}

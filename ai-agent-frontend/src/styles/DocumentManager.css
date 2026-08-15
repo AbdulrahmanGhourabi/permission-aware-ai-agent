@@ -1,0 +1,327 @@
+/* ---------- Document manager ---------- */
+/* Extends App.css's design tokens - --ink, --ink-soft, --paper, --panel,
+   --line, --signal, --signal-soft. No new colors introduced. */
+
+.document-manager {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px 8px;
+  font-family: 'Inter', sans-serif;
+}
+
+.document-manager h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+
+.documents-loading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-align: center;
+  padding: 24px;
+}
+
+.document-search {
+  width: 100%;
+  padding: 9px 12px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  background: var(--panel);
+  color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.document-search:focus {
+  outline: none;
+  border-color: var(--signal);
+  box-shadow: 0 0 0 3px var(--signal-soft);
+}
+
+.document-search::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+/* ---------- The card grid ---------- */
+/* Horizontal, wrapping - cards find their own width rather than
+   stretching full-width, so a page with many documents reads like a
+   shelf of folders instead of a vertical spreadsheet. */
+
+.document-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+/* Each document is a native <details> element - real, accessible,
+   keyboard-operable disclosure widgets, not hand-rolled open/close
+   state. Styled as a small filed card with a die-cut "tab" along the
+   top edge, echoing a manila folder rather than a generic dashboard
+   tile - a deliberate departure from the flat card-grid look most
+   admin panels default to. */
+.document-card {
+  --tab-width: 46px;
+  position: relative;
+  width: 260px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 3px 10px 10px 10px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.document-card::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 14px;
+  width: var(--tab-width);
+  height: 8px;
+  background: var(--ink);
+  border-radius: 4px 4px 0 0;
+  opacity: 0.9;
+}
+
+.document-card[data-permission='viewer']::before {
+  background: var(--signal);
+}
+
+.document-card[open] {
+  box-shadow: 0 10px 28px rgba(18, 20, 28, 0.1);
+}
+
+.document-card-summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 14px 14px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Remove the default disclosure triangle Chrome/Firefox draw, replaced
+   with a custom mark below so it matches the type system. */
+.document-card-summary::-webkit-details-marker {
+  display: none;
+}
+
+.document-card-summary::marker {
+  content: '';
+}
+
+.document-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.document-permission-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 7px;
+  border-radius: 20px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* A small hand-drawn-feeling caret, rotating open like a page turning
+   rather than a mechanical chevron flip. */
+.document-card-summary::after {
+  content: '⌄';
+  font-size: 15px;
+  line-height: 1;
+  color: var(--ink-soft);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.document-card[open] .document-card-summary::after {
+  transform: rotate(180deg);
+}
+
+.document-card-body {
+  padding: 0 16px 16px;
+  border-top: 1px dashed var(--line);
+  margin-top: -1px;
+  padding-top: 12px;
+  animation: unfold 0.2s ease;
+}
+
+@keyframes unfold {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Shared-with chips ---------- */
+
+.shares-list {
+  margin-bottom: 10px;
+}
+
+.shares-label {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.shares-empty {
+  margin: 0;
+  font-size: 12px;
+}
+
+.share-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.share-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 5px 4px 10px;
+  border-radius: 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--ink);
+  max-width: 100%;
+}
+
+.share-row span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
+}
+
+.share-row button {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 14px;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.share-row button:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ---------- Share toggle + form ---------- */
+
+.share-toggle-button {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px dashed var(--line);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.share-toggle-button:hover {
+  border-color: var(--signal);
+  border-style: solid;
+  background: var(--signal-soft);
+  color: var(--signal);
+}
+
+.share-form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.share-form input[type='email'] {
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.share-form input[type='email']:focus {
+  outline: none;
+  border-color: var(--signal);
+  box-shadow: 0 0 0 3px var(--signal-soft);
+}
+
+.share-form select {
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.share-form button:not(.share-row button) {
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: none;
+  background: var(--ink);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.share-form button:not(.share-row button):hover:not(:disabled) {
+  background: var(--signal);
+}
+
+.share-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.share-form .status-ok,
+.share-form .status-error {
+  margin-top: 2px;
+}

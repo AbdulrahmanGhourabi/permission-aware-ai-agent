@@ -1,0 +1,280 @@
+/* ---------- Chat ---------- */
+/* Assistant replies read like annotated citations — a quiet gold rule,
+   not a bubble — which fits a tool that's citing source chunks. User
+   turns stay a plain, confident ink bubble. Inputs sit in a recessed
+   --paper "well" against the --panel card around them, the same
+   inkwell logic as the document cards. Reading text stays in Inter
+   throughout; nothing sacrifices legibility for character. */
+
+.chat-layout {
+  display: flex;
+  gap: 28px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 36px 24px 56px;
+  align-items: flex-start;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ---------- Upload panel ---------- */
+
+.upload-panel {
+  flex: 0 0 280px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--gold);
+  border-radius: 12px;
+  padding: 24px 22px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 18px 40px -24px rgba(34, 27, 20, 0.3);
+}
+
+.upload-panel h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 16px;
+  color: var(--ink);
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-form input {
+  padding: 11px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.upload-form button {
+  padding: 11px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s;
+}
+
+.upload-form button:hover:not(:disabled) {
+  background: #2b2015;
+  transform: translateY(-1px);
+}
+
+.upload-form button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.status-ok,
+.status-error {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.2px;
+  padding: 6px 10px;
+  border-radius: 7px;
+}
+
+.status-ok::before,
+.status-error::before {
+  content: '●';
+  font-size: 7px;
+}
+
+.status-ok {
+  color: var(--good);
+  background: var(--good-soft);
+}
+
+.status-error {
+  color: var(--rust);
+  background: var(--rust-soft);
+}
+
+.chat-panel > .status-error {
+  margin: 0 20px 8px;
+}
+
+/* ---------- Chat panel ---------- */
+
+.chat-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 72vh;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--panel);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 24px 50px -28px rgba(34, 27, 20, 0.35);
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.empty-state {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-size: 15px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.message {
+  max-width: 74%;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.message p {
+  margin: 6px 0 0;
+}
+
+.message-role {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  opacity: 0.55;
+}
+
+/* User — a plain, confident bubble */
+.message-user {
+  align-self: flex-end;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 13px 17px;
+  border-radius: 14px 14px 3px 14px;
+  box-shadow: 0 10px 24px -14px rgba(34, 27, 20, 0.45);
+}
+
+.message-user .message-role {
+  color: rgba(250, 243, 227, 0.6);
+}
+
+/* Assistant — an annotated note, not a bubble */
+.message-assistant {
+  align-self: flex-start;
+  padding: 1px 0 1px 18px;
+  border-left: 2.5px solid var(--gold);
+  color: var(--ink);
+}
+
+.message-assistant .message-role {
+  color: var(--gold);
+}
+
+.message-meta {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  font-family: 'IBM Plex Mono', monospace;
+  opacity: 0.5;
+}
+
+.message-user .message-meta {
+  color: rgba(250, 243, 227, 0.7);
+}
+
+.message-failed {
+  opacity: 0.7;
+}
+
+.message-failed .message-meta {
+  opacity: 1;
+}
+
+/* ---------- Ask form ---------- */
+
+.ask-form {
+  display: flex;
+  gap: 12px;
+  padding: 18px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.ask-form input {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  font-size: 14.5px;
+  font-family: 'Inter', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Focus uses the second accent (verdigris) rather than gold again -
+   one deliberate spot where the palette isn't just ink/paper/rust. */
+.ask-form input:focus {
+  outline: none;
+  border-color: var(--verdigris);
+  box-shadow: 0 0 0 3px var(--verdigris-soft);
+}
+
+.ask-form button {
+  padding: 12px 22px;
+  border-radius: 9px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s, box-shadow 0.2s;
+}
+
+.ask-form button:hover:not(:disabled) {
+  background: #2b2015;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -14px rgba(34, 27, 20, 0.5);
+}
+
+.ask-form button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 760px) {
+  .chat-layout {
+    flex-direction: column;
+    padding: 20px 16px 40px;
+  }
+  .upload-panel {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  .chat-panel {
+    height: 62vh;
+    width: 100%;
+  }
+  .message {
+    max-width: 88%;
+  }
+}
