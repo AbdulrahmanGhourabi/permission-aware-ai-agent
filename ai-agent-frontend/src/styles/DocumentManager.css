@@ -52,13 +52,17 @@
 /* ---------- The card grid ---------- */
 /* Horizontal, wrapping - cards find their own width rather than
    stretching full-width, so a page with many documents reads like a
-   shelf of folders instead of a vertical spreadsheet. */
+   shelf of folders instead of a vertical spreadsheet.
+   align-items: flex-start prevents flex's default "stretch" behavior,
+   which was making closed cards visually grow to match an open
+   neighbor's height in the same row. */
 
 .document-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 8px;
+  align-items: flex-start;
 }
 
 /* Each document is a native <details> element - real, accessible,
@@ -289,6 +293,15 @@
   box-shadow: 0 0 0 3px var(--signal-soft);
 }
 
+.share-form input[type='email'].input-invalid {
+  border-color: #b91c1c;
+}
+
+.share-form input[type='email'].input-invalid:focus {
+  border-color: #b91c1c;
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+}
+
 .share-form select {
   padding: 8px 10px;
   border-radius: 7px;
@@ -324,4 +337,11 @@
 .share-form .status-ok,
 .share-form .status-error {
   margin-top: 2px;
+}
+
+.field-error {
+  margin: 0;
+  font-size: 11px;
+  color: #b91c1c;
+  font-family: 'Inter', sans-serif;
 }

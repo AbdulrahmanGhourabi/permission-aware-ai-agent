@@ -4,6 +4,11 @@ import { supabase } from '../supabaseClient'
 const API_URL = 'http://localhost:8000'
 const REQUEST_TIMEOUT_MS = 30000
 
+// Simple, practical email format check - not RFC-5322-complete (nothing
+// truly is), just enough to catch "blabla" / missing @ / missing domain
+// before it ever reaches the network request.
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 // Mirrors Chat.jsx's token/retry pattern so both components behave
 // identically on session expiry and transient 401s, rather than each
 // component reinventing its own auth-refresh logic.
@@ -17,6 +22,7 @@ function DocumentManager({ onSessionExpired }) {
   // share form on one document doesn't affect another's input/state.
   const [openShareFormId, setOpenShareFormId] = useState(null)
   const [shareEmail, setShareEmail] = useState('')
+  const [shareEmailError, setShareEmailError] = useState(null)
   const [sharePermission, setSharePermission] = useState('viewer')
   const [shareStatus, setShareStatus] = useState(null)
   const [sharing, setSharing] = useState(false)
@@ -147,11 +153,30 @@ function DocumentManager({ onSessionExpired }) {
     setOpenShareFormId((prev) => (prev === documentId ? null : documentId))
     setShareStatus(null)
     setShareEmail('')
+    setShareEmailError(null)
+  }
+
+  function handleShareEmailChange(value) {
+    setShareEmail(value)
+    // Clear a stale error as soon as the user starts fixing the input,
+    // rather than leaving a red border up while they're mid-edit.
+    if (shareEmailError) setShareEmailError(null)
   }
 
   async function handleShare(documentId) {
-    if (!shareEmail.trim() || sharing) return
+    const trimmedEmail = shareEmail.trim()
 
+    if (!trimmedEmail) {
+      setShareEmailError('Email is required.')
+      return
+    }
+    if (!EMAIL_REGEX.test(trimmedEmail)) {
+      setShareEmailError('Enter a valid email address.')
+      return
+    }
+    if (sharing) return
+
+    setShareEmailError(null)
     setSharing(true)
     setShareStatus({ ok: null, message: 'Sharing...' })
 
@@ -162,7 +187,7 @@ function DocumentManager({ onSessionExpired }) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ email: shareEmail.trim(), permission: sharePermission }),
+        body: JSON.stringify({ email: trimmedEmail, permission: sharePermission }),
       }))
 
       if (res.status === 401) {
@@ -304,13 +329,19 @@ function DocumentManager({ onSessionExpired }) {
                     type="email"
                     placeholder="Email to share with"
                     value={shareEmail}
-                    onChange={(e) => setShareEmail(e.target.value)}
+                    onChange={(e) => handleShareEmailChange(e.target.value)}
                     disabled={sharing}
+                    required
+                    className={shareEmailError ? 'input-invalid' : ''}
+                    aria-invalid={!!shareEmailError}
                   />
+                  {shareEmailError && <p className="field-error">{shareEmailError}</p>}
+
                   <select
                     value={sharePermission}
                     onChange={(e) => setSharePermission(e.target.value)}
                     disabled={sharing}
+                    required
                   >
                     <option value="viewer">Viewer</option>
                     <option value="owner">Owner</option>
